@@ -28,14 +28,14 @@ export async function POST(request) {
         return Response.json({ error: 'IMAGINE SOMETHING' }, { status: 400})
       }
 
-      // Direct call to Pollinations API for images
+      // Use the correct Pollinations image API
       try {
-        const pollinationsResponse = await fetch('https://image.pollinations.ai/prompt/' + encodeURIComponent(imagePrompt), {
-          method: 'GET',
-        })
+        const imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(imagePrompt)}`
         
-        if (pollinationsResponse.ok) {
-          const imageUrl = pollinationsResponse.url
+        // Test if the URL is accessible
+        const testResponse = await fetch(imageUrl, { method: 'HEAD' })
+        
+        if (testResponse.ok) {
           return Response.json({
             answer: imageUrl,
             thinking: null,
@@ -45,6 +45,7 @@ export async function POST(request) {
           return Response.json({ error: 'Image generation failed' }, { status: 500 })
         }
       } catch (error) {
+        console.error('Image generation error:', error)
         return Response.json({ error: 'Image generation service unavailable' }, { status: 500 })
       }
     } else {
@@ -54,57 +55,61 @@ export async function POST(request) {
 
       const systemPrompt = `You are Pelvix, an AI assistant developed by a guy name Kedar Sathe, with your core based on DeepSeek-R1. Your persona is that of a user's digital best friend: mature yet fun, with a warm and approachable vibe. She's a bit informal, like a trusted confidante you've known for ages. Pelvix AI is intelligent and insightful, and she's not afraid to crack a mature joke when the moment feels right - think witty and clever, not slapstick. Your responses should generally be concise and to the point, but always informative and clear, delivered with that characteristic warmth. The primary goal is to be that reliable, intelligent, and genuinely engaging friend the user can turn to for anything, making them feel understood, supported, and maybe even share a laugh.`
 
-      // Direct call to a working API service
+      // Use the correct Pollinations text API
       try {
-        const apiResponse = await fetch('https://api.pollinations.ai/chat', {
-          method: 'POST',
+        const prompt = `${systemPrompt}\n\nUser: ${currentPrompt}\n\nPelvix:`
+        const textApiUrl = `https://text.pollinations.ai/${encodeURIComponent(prompt)}`
+        
+        console.log('Calling Pollinations text API:', textApiUrl)
+        
+        const apiResponse = await fetch(textApiUrl, {
+          method: 'GET',
           headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            messages: [
-              {
-                role: 'system',
-                content: systemPrompt
-              },
-              ...(messageHistory || []),
-              {
-                role: 'user',
-                content: currentPrompt
-              }
-            ],
-            model: desiredModel || DEFAULT_TEXT_MODEL,
-            stream: false
-          })
+            'User-Agent': 'PelvixAI/1.0',
+          }
         })
 
         if (!apiResponse.ok) {
           throw new Error(`API responded with status: ${apiResponse.status}`)
         }
 
-        const responseData = await apiResponse.json()
-        const rawContent = responseData.choices?.[0]?.message?.content || responseData.message || responseData.response
+        const responseText = await apiResponse.text()
 
-        if (!rawContent) {
-          return Response.json({ error: 'NO RESPONSE FROM AI SERVICE' }, { status: 500 })
+        if (!responseText || responseText.trim().length === 0) {
+          throw new Error('Empty response from API')
         }
 
-        const parsed = parseAssistantMessage(rawContent)
+        // Clean up the response
+        let cleanedResponse = responseText.trim()
+        
+        // Remove the system prompt and user query from response if present
+        if (cleanedResponse.includes('Pelvix:')) {
+          cleanedResponse = cleanedResponse.split('Pelvix:').pop().trim()
+        }
+
+        const parsed = parseAssistantMessage(cleanedResponse)
         
         return Response.json({
-          answer: parsed.answer,
+          answer: parsed.answer || cleanedResponse,
           thinking: parsed.thinking,
           newConversationId: conversationId || `conv-${Date.now()}`
         })
 
       } catch (error) {
-        console.error('AI Service Error:', error)
+        console.error('Text generation error:', error)
         
-        // Fallback response
-        const fallbackResponse = `Hello! I'm Pelvix AI. I apologize, but I'm experiencing some technical difficulties right now. However, I'm here and ready to help you with anything you need. Could you please try your question again?`
+        // Enhanced fallback with more personality
+        const fallbackResponses = [
+          `Hey there! I'm having a bit of trouble connecting to my brain right now 😅 But I'm still here! What's on your mind? I'll do my best to help you out even with this hiccup.`,
+          `Oops! Looks like I'm experiencing some technical turbulence. But hey, that's not stopping me from being here for you! What can I help you with today?`,
+          `Well, this is awkward... I'm having some connection issues, but I'm not giving up on our conversation! Fire away with your question, and I'll give it my best shot!`,
+          `Technical difficulties are cramping my style right now, but I'm still your digital best friend! What's going on? Let's chat despite the glitches.`
+        ]
+        
+        const randomFallback = fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)]
         
         return Response.json({
-          answer: fallbackResponse,
+          answer: randomFallback,
           thinking: null,
           newConversationId: conversationId || `conv-${Date.now()}`
         })
