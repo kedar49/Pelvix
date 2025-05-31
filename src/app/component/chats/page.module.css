@@ -7,19 +7,52 @@
    margin: 1em 0.5em;
    box-sizing: border-box;
    position: relative;
+   width: 100%;
+   max-width: 100%;
+   overflow-x: hidden;
+}
+
+@media screen and (max-width: 768px) {
+   .chatsContainer {
+      margin: 0.5em 0.25em;
+   }
+}
+
+@media screen and (max-width: 480px) {
+   .chatsContainer {
+      margin: 0.3em 0.15em;
+   }
 }
 
 .messages {
    display: flex;
    flex-direction: column;
+   gap: 0.5rem;
+   width: 100%;
+}
+
+@media screen and (max-width: 768px) {
+   .messages {
+      gap: 0.3rem;
+   }
 }
 
 .message img {
    max-width: 100%;
+   height: auto;
+   object-fit: contain;
 }
 
 .homePage {
    text-decoration: none;
+   display: block;
+   margin-bottom: 1rem;
+}
+
+@media screen and (max-width: 768px) {
+   .homePage {
+      margin-bottom: 0.5rem;
+   }
 }
 
 .message {
@@ -30,13 +63,29 @@
    box-sizing: border-box;
    padding: 0.4rem;
    overflow-wrap: break-word !important;
+   word-wrap: break-word;
+   max-width: 100%;
+}
+
+@media screen and (max-width: 768px) {
+   .message {
+      padding: 0.2rem;
+      line-height: 130%;
+   }
 }
 
 .message.user {
    align-self: flex-end;
    display: flex;
-   max-width: 80%;
+   max-width: 85%;
    padding-bottom: 1em;
+}
+
+@media screen and (max-width: 768px) {
+   .message.user {
+      max-width: 95%;
+      padding-bottom: 0.5em;
+   }
 }
 
 .role-user {
@@ -44,6 +93,14 @@
    padding-left: 0.5em;
    order: 2;
    transform: translateY(7px);
+   flex-shrink: 0;
+}
+
+@media screen and (max-width: 768px) {
+   .role-user {
+      padding-left: 0.3em;
+      transform: translateY(5px);
+   }
 }
 
 .msgContent-user {
@@ -52,20 +109,48 @@
    order: 1;
    text-align: left;
    border: 1px solid;
-   /* border-radius: 21px; */
    align-items: flex-end;
    padding: 0.4em 0.9em 0.4em 0.8em;
-   
+   word-wrap: break-word;
+   overflow-wrap: break-word;
+   max-width: calc(100% - 2rem);
+}
+
+@media screen and (max-width: 768px) {
+   .msgContent-user {
+      padding: 0.3em 0.6em;
+      max-width: calc(100% - 1rem);
+   }
 }
 
 .role-assistant {
    color: var(--text-light-blue);
-   padding-right: 3em;
+   padding-right: 1em;
    margin-left: 0em;
    font-size: 0.25em;
    transform: translateY(-7px);
    line-height: 0.9em;
    font-weight: 900;
+   flex-shrink: 0;
+   min-width: 2rem;
+}
+
+@media screen and (max-width: 768px) {
+   .role-assistant {
+      font-size: 0.2em;
+      transform: translateY(-5px);
+      padding-right: 0.5em;
+      min-width: 1.5rem;
+   }
+}
+
+@media screen and (max-width: 480px) {
+   .role-assistant {
+      font-size: 0.18em;
+      transform: translateY(-3px);
+      padding-right: 0.3em;
+      min-width: 1rem;
+   }
 }
 
 .msgContent-assistant {
@@ -73,6 +158,23 @@
    text-align: left;
    margin-right: 1.2em;
    width: 100% !important;
+   word-wrap: break-word;
+   overflow-wrap: break-word;
+   max-width: calc(100% - 3rem);
+}
+
+@media screen and (max-width: 768px) {
+   .msgContent-assistant {
+      margin-right: 0.6em;
+      max-width: calc(100% - 2rem);
+   }
+}
+
+@media screen and (max-width: 480px) {
+   .msgContent-assistant {
+      margin-right: 0.3em;
+      max-width: calc(100% - 1.5rem);
+   }
 }
 
 .empty {
@@ -82,24 +184,26 @@
    align-self: center;
 }
 
+@media screen and (max-width: 768px) {
+   .empty {
+      font-size: 1.1rem;
+   }
+}
+
 .messageContent {
    padding-left: 10px;
+   word-wrap: break-word;
+   overflow-wrap: break-word;
+}
+
+@media screen and (max-width: 768px) {
+   .messageContent {
+      padding-left: 5px;
+   }
 }
 
 .cursor {
    animation: blink 1s step-end infinite
-}
-
-@media screen and (max-width: 768px) {
-   .role-assistant {
-      font-size: 0.25em;
-      transform: translateY(-5px) !important;
-   }
-
-   .welcomeAscii pre {
-      line-height: 1em !important;
-      letter-spacing: -0.2em !important;
-   }
 }
 
 .welcomeAscii {
@@ -107,16 +211,53 @@
    font-weight: 900;
    translate: 0 -1em;
    display: flex;
-   color: var(--text-light-blue)
+   color: var(--text-light-blue);
+   justify-content: center;
+   overflow: hidden;
 }
 
 .welcomeAscii pre {
    line-height: 1em;
    letter-spacing: -0.2em;
+   margin: 0;
+   white-space: pre;
+   overflow: hidden;
+}
+
+@media screen and (max-width: 768px) {
+   .welcomeAscii {
+      font-size: 0.35rem;
+   }
+   
+   .welcomeAscii pre {
+      line-height: 0.9em !important;
+      letter-spacing: -0.25em !important;
+   }
+}
+
+@media screen and (max-width: 480px) {
+   .welcomeAscii {
+      font-size: 0.28rem;
+   }
+   
+   .welcomeAscii pre {
+      line-height: 0.8em !important;
+      letter-spacing: -0.3em !important;
+   }
+}
+
+@media screen and (max-width: 320px) {
+   .welcomeAscii {
+      font-size: 0.22rem;
+   }
+   
+   .welcomeAscii pre {
+      line-height: 0.7em !important;
+      letter-spacing: -0.35em !important;
+   }
 }
 
 @keyframes blink {
-
    0%,
    100% {
       background-color: var(--text-light-blue);

@@ -6,7 +6,7 @@
   flex-direction: column;
   align-items: center;
   gap: 8px;
-  z-index: 1000;
+  z-index: 9998;
 }
 
 .themeToggle {
@@ -70,14 +70,14 @@
 
 @media screen and (max-width: 768px) {
   .themeToggleContainer {
-    top: 15px;
-    right: 15px;
-    gap: 6px;
+    top: 10px;
+    right: 10px;
+    gap: 4px;
   }
   
   .themeToggle {
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
   }
   
   .toggleIcon {
@@ -85,7 +85,29 @@
   }
   
   .themeLabel {
-    font-size: 0.6em;
-    padding: 2px 6px;
+    font-size: 0.55em;
+    padding: 2px 4px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .themeToggleContainer {
+    top: 8px;
+    right: 8px;
+    gap: 3px;
+  }
+  
+  .themeToggle {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .toggleIcon {
+    font-size: 0.9em;
+  }
+  
+  .themeLabel {
+    font-size: 0.5em;
+    padding: 1px 3px;
   }
 } 

@@ -2,7 +2,7 @@
   position: fixed;
   top: 20px;
   left: 20px;
-  z-index: 999;
+  z-index: 9999;
 }
 
 .contactButton {
@@ -76,6 +76,7 @@
   backdrop-filter: blur(15px);
   overflow: hidden;
   animation: menuSlideIn 0.2s ease-out;
+  z-index: 10000;
 }
 
 @keyframes menuSlideIn {
@@ -152,14 +153,14 @@
 /* Mobile responsive */
 @media screen and (max-width: 768px) {
   .contactContainer {
-    top: 15px;
-    left: 15px;
+    top: 10px;
+    left: 10px;
   }
   
   .contactButton {
-    width: 40px;
-    height: 40px;
-    border-radius: 10px;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
   }
   
   .contactIcon {
@@ -169,21 +170,65 @@
   .iconTop,
   .iconMiddle, 
   .iconBottom {
-    font-size: 0.6em;
+    font-size: 0.55em;
   }
   
   .contactMenu {
-    top: 48px;
-    min-width: 140px;
+    top: 44px;
+    min-width: 130px;
   }
   
   .menuTitle {
-    font-size: 0.7em;
+    font-size: 0.65em;
   }
   
   .menuItem {
-    padding: 10px 14px;
-    font-size: 0.8em;
-    gap: 10px;
+    padding: 8px 12px;
+    font-size: 0.75em;
+    gap: 8px;
+  }
+  
+  .itemIcon {
+    font-size: 1em;
+    width: 16px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .contactContainer {
+    top: 8px;
+    left: 8px;
+  }
+  
+  .contactButton {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+  }
+  
+  .iconTop,
+  .iconMiddle, 
+  .iconBottom {
+    font-size: 0.5em;
+  }
+  
+  .contactMenu {
+    top: 40px;
+    min-width: 120px;
+  }
+  
+  .menuTitle {
+    font-size: 0.6em;
+  }
+  
+  .menuItem {
+    padding: 6px 10px;
+    font-size: 0.7em;
+    gap: 6px;
+  }
+  
+  .itemIcon {
+    font-size: 0.9em;
+    width: 14px;
   }
 } 

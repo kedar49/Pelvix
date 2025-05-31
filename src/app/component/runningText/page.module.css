@@ -1,25 +1,69 @@
 .marqueeContainer {
+  position: relative;
   width: 100%;
+  max-width: 100vw;
   overflow: hidden;
+  opacity: 0;
+  background-color: var(--background-color);
   box-sizing: border-box;
-  display: flex;
-  /* border: 3px solid red; */
-  position: absolute;
-  bottom: 0;
-  opacity: 0
+}
+
+@media screen and (max-width: 768px) {
+  .marqueeContainer {
+    font-size: 0.9em;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .marqueeContainer {
+    font-size: 0.8em;
+  }
 }
 
 .marqueeWrapper {
-  width: 100%;
-  white-space: nowrap;
-  position: relative;
   display: flex;
+  width: fit-content;
+  position: relative;
 }
 
-.marqueeWrapper p {
-  /* font-size: 1.4rem; */
+.textInstance {
+  white-space: nowrap;
+  margin: 0;
+  padding: 0 2em;
   color: var(--text-light-blue);
-  margin-bottom: 0 !important;
+  font-family: var(--geistMono);
+  word-break: keep-all;
+  overflow-wrap: normal;
+}
+
+@media screen and (max-width: 768px) {
+  .textInstance {
+    padding: 0 1.5em;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .textInstance {
+    padding: 0 1em;
+  }
+}
+
+.textInstance p {
+  margin: 0;
+  white-space: nowrap;
+}
+
+.textInstance code {
+  word-break: keep-all;
+  white-space: nowrap;
+}
+
+.textInstance strong {
+  white-space: nowrap;
+}
+
+.textInstance em {
+  white-space: nowrap;
 }
 
 
