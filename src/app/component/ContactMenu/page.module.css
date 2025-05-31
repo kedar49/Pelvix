@@ -1,0 +1,189 @@
+.contactContainer {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 999;
+}
+
+.contactButton {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background-color: var(--background-color-darker);
+  border: 1px solid var(--border-color);
+  color: var(--text-light-blue);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  font-family: var(--geistMono);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.contactButton:hover {
+  background-color: var(--text-dark-blue);
+  transform: translateY(-2px);
+  border-color: var(--text-light-blue);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.contactButton:active {
+  transform: translateY(0px);
+}
+
+.contactIcon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  transition: all 0.3s ease;
+}
+
+.iconTop,
+.iconMiddle, 
+.iconBottom {
+  display: block;
+  font-size: 0.7em;
+  line-height: 1;
+  transition: all 0.3s ease;
+}
+
+.contactButton:hover .contactIcon {
+  transform: scale(1.1);
+}
+
+.contactButton:hover .iconTop {
+  transform: translateX(-2px);
+}
+
+.contactButton:hover .iconBottom {
+  transform: translateX(2px);
+}
+
+.contactMenu {
+  position: absolute;
+  top: 56px;
+  left: 0;
+  min-width: 160px;
+  background-color: var(--background-color-darker);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(15px);
+  overflow: hidden;
+  animation: menuSlideIn 0.2s ease-out;
+}
+
+@keyframes menuSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.menuHeader {
+  padding: 12px 16px 8px;
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--background-color);
+}
+
+.menuTitle {
+  font-family: var(--geistMono);
+  font-size: 0.8em;
+  font-weight: 600;
+  color: var(--text-light-blue);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.menuItems {
+  padding: 8px 0;
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  color: var(--text-light-blue);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  font-family: var(--geistMono);
+  font-size: 0.9em;
+  border-left: 3px solid transparent;
+}
+
+.menuItem:hover {
+  background-color: var(--background-color);
+  border-left-color: var(--text-light-blue);
+  transform: translateX(2px);
+}
+
+.itemIcon {
+  font-size: 1.1em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  transition: all 0.2s ease;
+}
+
+.menuItem:hover .itemIcon {
+  transform: scale(1.2);
+}
+
+.itemText {
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.menuItem:hover .itemText {
+  color: var(--accent-color);
+}
+
+/* Mobile responsive */
+@media screen and (max-width: 768px) {
+  .contactContainer {
+    top: 15px;
+    left: 15px;
+  }
+  
+  .contactButton {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+  }
+  
+  .contactIcon {
+    gap: 0px;
+  }
+  
+  .iconTop,
+  .iconMiddle, 
+  .iconBottom {
+    font-size: 0.6em;
+  }
+  
+  .contactMenu {
+    top: 48px;
+    min-width: 140px;
+  }
+  
+  .menuTitle {
+    font-size: 0.7em;
+  }
+  
+  .menuItem {
+    padding: 10px 14px;
+    font-size: 0.8em;
+    gap: 10px;
+  }
+} 

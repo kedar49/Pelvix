@@ -1,0 +1,143 @@
+:root {
+  --text-light-blue: #4893f5;
+  --text-dark-blue: #0b489d;
+  --background-color: #050d41;
+  --background-color-darker: #00052a;
+  --accent-color: #4893f5;
+  --secondary-text: #093c84;
+  --border-color: #0b489d;
+  --table-stripe: #032052;
+}
+
+
+* {
+  box-sizing: border-box;
+  letter-spacing: -0.025rem;
+}
+
+body,
+html {
+  font-family: var(--geistMono);
+  background-color: var(--background-color);
+  color: var(--text-light-blue);
+  padding: 0;
+  margin: 0;
+  height: 100vh;
+  height: 100svh;
+  width: 100vw;
+  /* width: 100svw; */
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9em;
+  font-weight: 300;
+  
+  flex-grow: 1;
+  letter-spacing: 0em;
+  font-feature-settings: 'ss03' on, 'ss08' on, 'ss06' on, 'ss04' on;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+
+html {
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+@media screen and (max-width: 768px) {
+  body,
+  html {
+    font-size: 0.7em;
+  }
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: 1em;
+  color: var(--text-light-blue);
+}
+
+a {
+  color: var(--accent-color);
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--text-light-blue);
+}
+
+code {
+  background-color: var(--background-color-darker);
+  color: var(--text-light-blue);
+  font-family: var(--geistMono);
+  padding: 0.1em 0.5em;
+  border: 1px solid var(--border-color);
+  border-radius: 3px;
+}
+
+blockquote {
+  background-color: var(--background-color-darker);
+  color: var(--text-light-blue);
+  padding: 0.5em 1em;
+  border-left: 2px solid var(--border-color);
+  margin: 1em 0;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--border-color);
+  width: 100%;
+  margin-bottom: 1em;
+}
+
+strong {
+  font-weight: 500;
+  color: var(--text-light-blue);
+}
+
+ul,
+ol {
+  margin-top: 0;
+  color: var(--text-light-blue);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 0;
+  color: var(--text-light-blue);
+}
+
+tr:nth-of-type(even) { 
+  background: var(--table-stripe);
+}
+
+td {
+  padding: 0.4em;
+  color: var(--text-light-blue);
+}
+
+tbody {
+  border: 1px solid var(--background-color-darker);
+}
+
+thead {
+  text-align: center;
+  background-color: var(--background-color-darker);
+  color: var(--text-light-blue);
+}
+
+th {
+  padding: 0.5em 0;
+  color: var(--text-light-blue);
+}
+
+table {
+  border: 2px solid var(--background-color-darker);
+  border-collapse: collapse;
+  background-color: var(--background-color);
+}
+
+table td, table th {
+  border: 1px solid var(--border-color);
+}

@@ -1,0 +1,91 @@
+.themeToggleContainer {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  z-index: 1000;
+}
+
+.themeToggle {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: var(--background-color-darker);
+  border: 1px solid var(--border-color);
+  color: var(--text-light-blue);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  font-family: var(--geistMono);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.themeToggle:hover {
+  background-color: var(--text-dark-blue);
+  transform: scale(1.1);
+  border-color: var(--text-light-blue);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.themeToggle:active {
+  transform: scale(0.95);
+}
+
+.toggleIcon {
+  font-size: 1.2em;
+  user-select: none;
+  transition: all 0.3s ease;
+}
+
+.themeToggle:hover .toggleIcon {
+  transform: rotate(15deg);
+}
+
+.themeLabel {
+  background-color: var(--background-color-darker);
+  color: var(--text-light-blue);
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.7em;
+  font-family: var(--geistMono);
+  font-weight: 500;
+  border: 1px solid var(--border-color);
+  text-align: center;
+  white-space: nowrap;
+  backdrop-filter: blur(10px);
+  opacity: 0.9;
+  transition: all 0.3s ease;
+}
+
+.themeToggleContainer:hover .themeLabel {
+  opacity: 1;
+  transform: translateY(-2px);
+}
+
+@media screen and (max-width: 768px) {
+  .themeToggleContainer {
+    top: 15px;
+    right: 15px;
+    gap: 6px;
+  }
+  
+  .themeToggle {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .toggleIcon {
+    font-size: 1em;
+  }
+  
+  .themeLabel {
+    font-size: 0.6em;
+    padding: 2px 6px;
+  }
+} 
