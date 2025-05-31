@@ -1,69 +1,25 @@
 .marqueeContainer {
-  position: relative;
   width: 100%;
-  max-width: 100vw;
   overflow: hidden;
-  opacity: 0;
-  background-color: var(--background-color);
   box-sizing: border-box;
-}
-
-@media screen and (max-width: 768px) {
-  .marqueeContainer {
-    font-size: 0.9em;
-  }
-}
-
-@media screen and (max-width: 480px) {
-  .marqueeContainer {
-    font-size: 0.8em;
-  }
+  display: flex;
+  /* border: 3px solid red; */
+  position: absolute;
+  bottom: 0;
+  opacity: 0
 }
 
 .marqueeWrapper {
-  display: flex;
-  width: fit-content;
+  width: 100%;
+  white-space: nowrap;
   position: relative;
+  display: flex;
 }
 
-.textInstance {
-  white-space: nowrap;
-  margin: 0;
-  padding: 0 2em;
+.marqueeWrapper p {
+  /* font-size: 1.4rem; */
   color: var(--text-light-blue);
-  font-family: var(--geistMono);
-  word-break: keep-all;
-  overflow-wrap: normal;
-}
-
-@media screen and (max-width: 768px) {
-  .textInstance {
-    padding: 0 1.5em;
-  }
-}
-
-@media screen and (max-width: 480px) {
-  .textInstance {
-    padding: 0 1em;
-  }
-}
-
-.textInstance p {
-  margin: 0;
-  white-space: nowrap;
-}
-
-.textInstance code {
-  word-break: keep-all;
-  white-space: nowrap;
-}
-
-.textInstance strong {
-  white-space: nowrap;
-}
-
-.textInstance em {
-  white-space: nowrap;
+  margin-bottom: 0 !important;
 }
 
 

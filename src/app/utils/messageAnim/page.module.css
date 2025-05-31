@@ -3,183 +3,89 @@
 }
 
 .imageResponse {
+   width: 60%;
    position: relative;
-   width: 100%;
-   max-width: 400px;
-   aspect-ratio: 1;
-   margin: 0 auto;
-   overflow: hidden;
-   border-radius: 8px;
+   display: flex;
+   padding: 0.6em;
    background-color: var(--background-color-darker);
 }
 
 @media screen and (max-width: 768px) {
   .imageResponse {
-    max-width: 300px;
+    width: 90%
+  }
+
+  .imageWrapper {
+    width: 90%;
+    aspect-ratio: 4/5
   }
 }
 
-@media screen and (max-width: 480px) {
-  .imageResponse {
-    max-width: 250px;
-  }
+.imageCover{
+   display: block;
+   overflow: hidden;
+   position: relative;
+   width: 100%;
+   aspect-ratio: 4/5;
+   background-color: var(--background-color-darker);
 }
 
 .imageWrapper {
   position: relative;
-  width: 100%;
-  height: 100%;
   display: flex;
-  align-items: center;
-  justify-content: center;
   overflow: hidden;
+  width: 100%;
+  aspect-ratio: 4 / 5;
 }
 
-.generatedImage {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 8px;
-  z-index: 2;
+.responseContainer {
+  display: flex;
 }
 
-.imageCover {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: var(--background-color-darker);
+.downloadBtn {
+  position: relative;
+  height: max-content;
+  align-self: flex-end;
+  font-size: 1.5em; 
   z-index: 3;
+  cursor: pointer;
+  margin-left: 0.3em;
 }
 
+.downloadBtn p {
+    color: var(--text-dark-blue);
+    margin: 0;
+    line-height: 1;
+    text-decoration: none;
+}
+
+.downloadBtn a {
+    text-decoration: none;
+}
+
+.imageWrapper img,
 .pixelGrid {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
+}
+
+.imageWrapper img {
+  object-fit: cover;
+}
+
+.pixelGrid {
   display: grid;
   grid-template-columns: repeat(17, 1fr);
   grid-template-rows: repeat(21, 1fr);
-  gap: 1px;
-  z-index: 4;
-}
-
-@media screen and (max-width: 768px) {
-  .pixelGrid {
-    grid-template-columns: repeat(15, 1fr);
-    grid-template-rows: repeat(19, 1fr);
-  }
-}
-
-@media screen and (max-width: 480px) {
-  .pixelGrid {
-    grid-template-columns: repeat(13, 1fr);
-    grid-template-rows: repeat(17, 1fr);
-  }
+  overflow: hidden;
+  opacity: 1;
 }
 
 .pixelDiv {
-  background-color: transparent;
-  border-radius: 1px;
-  transition: all 0.1s ease;
-}
-
-.downloadBtn {
-  align-self: flex-start;
-  margin-top: 0.5rem;
-}
-
-@media screen and (max-width: 768px) {
-  .downloadBtn {
-    margin-top: 0.3rem;
-  }
-}
-
-.downloadBtn a {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  background-color: var(--background-color-darker);
-  border: 1px solid var(--border-color);
-  border-radius: 6px;
-  color: var(--text-light-blue);
-  text-decoration: none;
-  transition: all 0.3s ease;
-  font-size: 1.2em;
-}
-
-@media screen and (max-width: 768px) {
-  .downloadBtn a {
-    width: 28px;
-    height: 28px;
-    font-size: 1em;
-  }
-}
-
-.downloadBtn a:hover {
-  background-color: var(--text-dark-blue);
-  border-color: var(--text-light-blue);
-  transform: translateY(-2px);
-}
-
-.downloadBtn p {
-  margin: 0;
-  font-weight: 600;
-}
-
-.TypingSpinner {
-  color: var(--text-light-blue);
-  font-family: var(--geistMono);
-  font-size: 1.2em;
-  font-weight: 600;
-  display: inline-block;
-  margin: 0.2em 0;
-}
-
-@media screen and (max-width: 768px) {
-  .TypingSpinner {
-    font-size: 1em;
-  }
-}
-
-/* Text message display */
-.textMessage {
   width: 100%;
-  max-width: 100%;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-}
-
-.textMessage pre {
-  overflow-x: auto;
-  white-space: pre-wrap;
-  max-width: 100%;
-}
-
-@media screen and (max-width: 768px) {
-  .textMessage pre {
-    font-size: 0.9em;
-  }
-}
-
-.textMessage code {
-  word-break: break-all;
-  overflow-wrap: break-word;
-}
-
-.textMessage table {
-  width: 100%;
-  max-width: 100%;
-  overflow-x: auto;
-  display: block;
-}
-
-@media screen and (max-width: 768px) {
-  .textMessage table {
-    font-size: 0.8em;
-  }
+  height: 100%;
+  transform: scale(0.5);
 }

@@ -30,20 +30,50 @@ export async function POST(request) {
 
       // Use the correct Pollinations image API
       try {
-        const imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(imagePrompt)}`
+        // Clean and optimize the prompt
+        const cleanPrompt = imagePrompt.trim().replace(/[^\w\s\-.,!]/g, ' ').trim()
         
-        // Test if the URL is accessible
-        const testResponse = await fetch(imageUrl, { method: 'HEAD' })
+        // Build the image URL with optional parameters
+        let imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(cleanPrompt)}`
         
-        if (testResponse.ok) {
-          return Response.json({
-            answer: imageUrl,
-            thinking: null,
-            newConversationId: conversationId
-          })
-        } else {
-          return Response.json({ error: 'Image generation failed' }, { status: 500 })
+        // Add optional parameters
+        const params = new URLSearchParams()
+        
+        if (seed) {
+          params.append('seed', seed)
         }
+        
+        // Add width and height for better image quality
+        params.append('width', '1024')
+        params.append('height', '1024')
+        
+        // Add model if specified, with fallback to flux
+        const model = desiredModel || DEFAULT_IMAGE_MODEL
+        if (model && model !== 'flux') {
+          params.append('model', model)
+        }
+        
+        // Add enhance parameter for better quality
+        params.append('enhance', 'true')
+        
+        // Add nologo parameter to remove watermarks
+        params.append('nologo', 'true')
+        
+        // Append parameters if any exist
+        if (params.toString()) {
+          imageUrl += `?${params.toString()}`
+        }
+        
+        console.log('Generated image URL:', imageUrl)
+        console.log('Image prompt:', cleanPrompt)
+        
+        // Pollinations generates images on-demand, so we can return the URL directly
+        return Response.json({
+          answer: imageUrl,
+          thinking: null,
+          newConversationId: conversationId || `conv-${Date.now()}`
+        })
+        
       } catch (error) {
         console.error('Image generation error:', error)
         return Response.json({ error: 'Image generation service unavailable' }, { status: 500 })
