@@ -23,11 +23,23 @@ try:
 
     allowed_origins = [
         "https://www.pelvix.ai",
+        "https://pelvix.ai",
+        "https://pelvix.vercel.app",
         "http://localhost:3000",
     ]
     vercel_url = os.environ.get('VERCEL_URL')
     if vercel_url:
-        allowed_origins.append(f"https://{vercel_url}")    
+        allowed_origins.append(f"https://{vercel_url}")
+        # Also add without www
+        if vercel_url.startswith('www.'):
+            allowed_origins.append(f"https://{vercel_url[4:]}")
+        else:
+            allowed_origins.append(f"https://www.{vercel_url}")
+    
+    # Add any additional production URLs
+    production_url = os.environ.get('NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL')
+    if production_url:
+        allowed_origins.append(f"https://{production_url}")
     
     app.add_middleware(
         CORSMiddleware,

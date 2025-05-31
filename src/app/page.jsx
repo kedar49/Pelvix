@@ -117,7 +117,7 @@ export default function Main() {
       setError(unexpectedErrorMessage)
       setMessages(prevMessages =>
         prevMessages.map(msg =>
-          msg.id === assistandPlaceholderId
+          msg.id === assistantPlaceholderId
             ? { ...msg, type: 'text', content: unexpectedErrorMessage }
             : msg
         )
