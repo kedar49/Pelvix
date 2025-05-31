@@ -70,7 +70,6 @@ export default function Main() {
     setIsLoading(true)
 
     try {
-
       const result = await handleSubmit(textPrompt, imagePrompt, currentMessageHistoryForApi, conversationId)
 
       setMessages(prevMessages =>
@@ -126,6 +125,7 @@ export default function Main() {
       setIsLoading(false)
     }
   }
+  
   return (
     <div ref={containerRef} className={styles.mainContainer}>
       <div className={styles.chatWindow} ref={chatWindowRef}>

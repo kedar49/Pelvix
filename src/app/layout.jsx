@@ -18,7 +18,10 @@ const monoSpaced = localFont({
       path: '../app/assets/GeistMono-VariableFont_wght.ttf'
     }
   ],
-  variable: '--geistMono'
+  variable: '--geistMono',
+  display: 'swap',
+  preload: true,
+  fallback: ['Monaco', 'Menlo', 'Consolas', 'Courier New', 'monospace']
 });
 
 

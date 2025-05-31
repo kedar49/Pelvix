@@ -3,12 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "fastapi-dev": "pip install -r requirements.txt && python -m uvicorn api.index:app --reload",
-    "next-dev": "next dev --turbopack",
-    "dev": "concurrently \"pnpm run next-dev\" \"pnpm run fastapi-dev\"",
+    "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "clean": "rm -rf .next && rm -rf node_modules/.cache"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",

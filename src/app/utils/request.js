@@ -26,9 +26,9 @@ export async function sendPayload(payload) {
             errorData = await res.json()
          } catch (e) {
             const errorText = await res.text()
-            errorData = { error: errorText || `API REQUEST FAILED: &{res.status} - ${res.statusText}` }
+            errorData = { error: errorText || `API REQUEST FAILED: ${res.status} - ${res.statusText}` }
          }
-         throw new Error(errorData || `API REQUEST FAILED: ${res.status} - ${res.statusText}`)
+         throw new Error(errorData.error || `API REQUEST FAILED: ${res.status} - ${res.statusText}`)
       }
 
       const data = await res.json()
