@@ -136,22 +136,31 @@ export default function Input({ onSubmit, isLoading }) {
       e.preventDefault()
 
       const inputElement = effectRef.current
-      if (!inputElement) return
+      if (!inputElement) {
+        console.warn('GSAP: Input effect element not found, skipping animation')
+        performSubmit()
+        return
+      }
+      
       performSubmit()
 
       const opacity1 = '1';
 
-      const tl = gsap.timeline()
+      try {
+        const tl = gsap.timeline()
 
-      tl.to(inputElement, {
-        opacity: opacity1,
-        duration: 0.1,
-        ease: 'none',
-        repeat: 2,
-        onComplete: () => {
-          gsap.set(inputElement, { clearProps: 'opacity' })
-        }
-      })
+        tl.to(inputElement, {
+          opacity: opacity1,
+          duration: 0.1,
+          ease: 'none',
+          repeat: 2,
+          onComplete: () => {
+            gsap.set(inputElement, { clearProps: 'opacity' })
+          }
+        })
+      } catch (error) {
+        console.warn('GSAP: Error in input animation:', error)
+      }
     }
   }
 

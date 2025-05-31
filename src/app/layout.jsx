@@ -5,6 +5,7 @@ import IosZoomFix from '@/app/utils/iosZoomFix';
 import { ThemeProvider } from '@/app/context/ThemeContext'
 import ThemeToggle from '@/app/component/ThemeToggle'
 import ContactMenu from '@/app/component/ContactMenu'
+import ErrorBoundary from '@/app/utils/ErrorBoundary'
 
 export const metadata = {
   title: "Pelvix AI",
@@ -24,18 +25,19 @@ const monoSpaced = localFont({
   fallback: ['Monaco', 'Menlo', 'Consolas', 'Courier New', 'monospace']
 });
 
-
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${monoSpaced.variable}`} >
       <body>
-        <ThemeProvider>
-          <ContactMenu />
-          <ThemeToggle />
-          {children}
-          <Analytics />
-          <IosZoomFix />
-        </ThemeProvider>
+        <ErrorBoundary>
+          <ThemeProvider>
+            <ContactMenu />
+            <ThemeToggle />
+            {children}
+            <Analytics />
+            <IosZoomFix />
+          </ThemeProvider>
+        </ErrorBoundary>
       </body>
     </html>
   );

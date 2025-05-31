@@ -14,47 +14,80 @@ export default function RunningText({ speed, children }) {
 
     const N = 2
 
-
     useGSAP(() => {
+        // Add null checks for all refs
+        if (!containerRef.current || !wrapperRef.current) {
+            console.warn('GSAP: RunningText refs not found, skipping animation')
+            return
+        }
 
-        const containerWidth = containerRef.current.offsetWidth;
-    const instanceWidth = instanceRef.current[0].offsetWidth;
+        // Check if instances exist
+        if (!instanceRef.current || instanceRef.current.length === 0) {
+            console.warn('GSAP: RunningText instances not found, skipping animation')
+            return
+        }
 
-    
-    for (let i = 1; i < N; i++) {
-        gsap.set(instanceRef.current[i], {
-   
-            position: 'absolute',
-            left: `${i / (N - 1) * 100}%`,
-        });
-    }
+        // Ensure the first instance exists before getting its width
+        if (!instanceRef.current[0]) {
+            console.warn('GSAP: First instance not found, skipping animation')
+            return
+        }
 
-    gsap.set(containerRef.current, {
-        left: '100%',
-        opacity: 1,
-    });
+        try {
+            const containerWidth = containerRef.current.offsetWidth;
+            const instanceWidth = instanceRef.current[0].offsetWidth;
 
-    
-    const tl = gsap.timeline();
-    
-    tl.to(containerRef.current, {
-        xPercent: -100,
-        duration: 5,
-        ease: 'none',
-    });
+            // Position instances with null checks
+            for (let i = 1; i < N; i++) {
+                if (instanceRef.current[i]) {
+                    gsap.set(instanceRef.current[i], {
+                        position: 'absolute',
+                        left: `${i / (N - 1) * 100}%`,
+                    });
+                }
+            }
 
-    
-    const wrapperTl = gsap.timeline({
-        repeat: -1
-    });
+            gsap.set(containerRef.current, {
+                left: '100%',
+                opacity: 1,
+            });
 
-    wrapperTl.to(wrapperRef.current, {
-        xPercent: -100,
-        duration: 5,
-        ease: 'none',
-    });
+            // Main timeline
+            const mainTl = gsap.timeline();
+            
+            mainTl.to(containerRef.current, {
+                xPercent: -100,
+                duration: 5,
+                ease: 'none',
+            });
 
-    tl.add(wrapperTl);
+            // Wrapper timeline
+            const wrapperTl = gsap.timeline({
+                repeat: -1
+            });
+
+            wrapperTl.to(wrapperRef.current, {
+                xPercent: -100,
+                duration: 5,
+                ease: 'none',
+            });
+
+            mainTl.add(wrapperTl);
+
+            // Store timeline reference for cleanup
+            tl.current = mainTl;
+
+        } catch (error) {
+            console.warn('GSAP: Error in RunningText animation:', error)
+        }
+
+        // Cleanup function
+        return () => {
+            if (tl.current) {
+                tl.current.kill()
+                tl.current = null
+            }
+        }
 
     }, { dependencies: [children, speed] })
 
@@ -64,7 +97,11 @@ export default function RunningText({ speed, children }) {
                 {Array.from({ length: N }).map((_, i) => (
                     <p
                         key={i}
-                        ref={el => instanceRef.current[i] = el}
+                        ref={el => {
+                            if (el) {
+                                instanceRef.current[i] = el
+                            }
+                        }}
                         className={styles.textInstance}>
                         <Markdown>{children}</Markdown>
                     </p>

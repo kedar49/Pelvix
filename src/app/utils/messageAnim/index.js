@@ -59,14 +59,16 @@ const ROW_NUM = 21
     
 // Get theme-aware pixel colors
 const getPixelColors = () => {
+    if (typeof window === 'undefined') return ['#4893f5', '#0b489d', '#050d41', '#00052a']
+    
     const root = document.documentElement
     const computedStyle = getComputedStyle(root)
     
     return [
-        computedStyle.getPropertyValue('--text-light-blue').trim(),
-        computedStyle.getPropertyValue('--text-dark-blue').trim(),
-        computedStyle.getPropertyValue('--background-color').trim(),
-        computedStyle.getPropertyValue('--background-color-darker').trim()
+        computedStyle.getPropertyValue('--text-light-blue').trim() || '#4893f5',
+        computedStyle.getPropertyValue('--text-dark-blue').trim() || '#0b489d',
+        computedStyle.getPropertyValue('--background-color').trim() || '#050d41',
+        computedStyle.getPropertyValue('--background-color-darker').trim() || '#00052a'
     ]
 }
 
@@ -88,22 +90,34 @@ export function ImageReveal({ status, imageUrl, onAnimComplete }) {
     const [isDownload, setIsDownload] = useState(false)
     const loadingAnim = useRef(null)
     const revealTl = useRef(null)
-
-
     const coverRef = useRef(null)
-    const cover = coverRef.current
 
     const handleImageLoad = () => setIsImageLoaded(true)
 
     useGSAP(() => {
-        if (coverRef.current) gsap.set(cover, { opacity: 1 })
-        if (!wrapperRef.current) return
+        // Add null checks for all refs
+        if (!wrapperRef.current) {
+            console.warn('GSAP: wrapperRef not found, skipping animation')
+            return
+        }
+
+        const cover = coverRef.current
+        if (cover) {
+            gsap.set(cover, { opacity: 1 })
+        }
+
         const pixels = gsap.utils.toArray(`.${styles.pixelDiv}`, wrapperRef.current)
+        
+        // Check if pixels were found
+        if (!pixels || pixels.length === 0) {
+            console.warn('GSAP: No pixel elements found, skipping animation')
+            return
+        }
 
         const cleanupAnimation = () => {
             if (loadingAnim.current) {
                 loadingAnim.current.kill()
-                revealTl.current = null
+                loadingAnim.current = null
             }
             if (revealTl.current) {
                 revealTl.current.kill()
@@ -133,7 +147,7 @@ export function ImageReveal({ status, imageUrl, onAnimComplete }) {
             if (!loadingAnim.current || !loadingAnim.current.isActive()) {
                 if (loadingAnim.current) loadingAnim.current.kill()
                 
-                // Get theme colors
+                // Get theme colors with fallback
                 const PIXEL_COLORS = getPixelColors()
                 
                 gsap.set(pixels, {
@@ -141,28 +155,28 @@ export function ImageReveal({ status, imageUrl, onAnimComplete }) {
                     autoAlpha: 1,
                     backgroundColor: PIXEL_COLORS[3] // background-color-darker
                 })
-                loadingAnim.current =
-
-                    gsap.to(pixels, {
-                        backgroundColor: () => PIXEL_COLORS[Math.floor(Math.random() * PIXEL_COLORS.length)],
-                        duration: 0.1,
-                        ease: 'none',
-                        stagger: {
-                            ease: 'power2.inOut',
-                            amount: 1,
-                            from: 'random',
-                            repeat: -1,
-                            repeatRefresh: true
-                        }
-                    })
+                loadingAnim.current = gsap.to(pixels, {
+                    backgroundColor: () => PIXEL_COLORS[Math.floor(Math.random() * PIXEL_COLORS.length)],
+                    duration: 0.1,
+                    ease: 'none',
+                    stagger: {
+                        ease: 'power2.inOut',
+                        amount: 1,
+                        from: 'random',
+                        repeat: -1,
+                        repeatRefresh: true
+                    }
+                })
             }
         }
 
         if (status === 'revealing' && isImageLoaded) {
 
-            if (revealTl.current) {
-                revealTl.current.kill()
+            if (loadingAnim.current) {
+                loadingAnim.current.kill()
+                loadingAnim.current = null
             }
+            
             revealTl.current = gsap.timeline({
                 onComplete: () => {
                     cleanupAnimation()
@@ -170,12 +184,14 @@ export function ImageReveal({ status, imageUrl, onAnimComplete }) {
                 }
             })
 
-            // Get theme colors
+            // Get theme colors with fallback
             const PIXEL_COLORS = getPixelColors()
             const darkerBg = PIXEL_COLORS[3] // background-color-darker
 
             gsap.set(pixels, { autoAlpha: 1 })
-            if (coverRef.current) gsap.set(cover, { opacity: 1, backgroundColor: darkerBg })
+            if (cover) {
+                gsap.set(cover, { opacity: 1, backgroundColor: darkerBg })
+            }
 
             revealTl.current.to(pixels, {
                 backgroundColor: darkerBg,
@@ -198,6 +214,7 @@ export function ImageReveal({ status, imageUrl, onAnimComplete }) {
                     ease: 'power2.in'
                 }
             }, '-=0.5')
+            
             if (cover) {
                 revealTl.current.to(cover, {
                     duration: 0.1,
@@ -209,7 +226,6 @@ export function ImageReveal({ status, imageUrl, onAnimComplete }) {
 
     return (
         <div ref={wrapperRef} className={styles.imageWrapper} style={{ visibility: 'visible' }}>
-
             {imageUrl && (
                 <img
                     ref={imageRef}
@@ -249,7 +265,10 @@ export default function MessageAnim({ message }) {
                     duration: elementsCount * 0.03,
                     ease: 'none',
                     onUpdate: function () {
-                        setDisplayedContent(words.slice(0, Math.floor(this.targets()[0].value)).join(''))
+                        const target = this.targets()[0]
+                        if (target) {
+                            setDisplayedContent(words.slice(0, Math.floor(target.value)).join(''))
+                        }
                     },
                     onComplete: () => {
                         setDisplayedContent(contentToAnimate)
@@ -274,16 +293,16 @@ export default function MessageAnim({ message }) {
 
             return (
                 <div className={styles.responseContainer}>
-                    <div className={styles.imageResponse}>       <ImageReveal
-                        key={message.id}
-                        status={status}
-                        imageUrl={imageUrl}
-                        onAnimComplete={() => setIsAnimationComplete(true)}
-                    />
+                    <div className={styles.imageResponse}>
+                        <ImageReveal
+                            key={message.id}
+                            status={status}
+                            imageUrl={imageUrl}
+                            onAnimComplete={() => setIsAnimationComplete(true)}
+                        />
                     </div>
                     {isAnimationComplete && <DownloadButton imageUrl={imageUrl} />}
                 </div>
-
             )
         }
 

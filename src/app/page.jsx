@@ -4,6 +4,7 @@ import styles from './page.module.css'
 import Input from '@/app/component/input'
 import Chats from '@/app/component/chats'
 import { handleSubmit } from '@/app/utils/request'
+import '@/app/utils/gsapConfig'
 
 const generateId = () => `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
 
